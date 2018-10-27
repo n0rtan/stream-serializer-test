@@ -1,33 +1,30 @@
 buildscript {
 
     ext {
-
         kotlinVersion = '1.2.71'
         kotlinCoroutinesVersion = '0.30.2'
+        kryoVersion = '3.0.3'
         vertxVersion = '3.5.4'
+        junit5Version = '5.3.1'
+        assertjVersion = '3.11.1'
+
+        kryo = "com.esotericsoftware:kryo:$kryoVersion"
         vertxKotlinCoroutinesVersion = '3.5.4'
         vertxHazelcastVersion = '3.5.4'
-
-        /************************
-         * Kotlin
-         ***********************/
         kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
         kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
-
-        /************************
-         * Vert.x
-         ***********************/
         vertxCore = "io.vertx:vertx-core:$vertxVersion"
-        vertxWeb = "io.vertx:vertx-web:$vertxVersion"
-        vertxKotlinCore = "io.vertx:vertx-lang-kotlin:$vertxKotlinCoroutinesVersion"
-        vertxKotlinCoroutines = "io.vertx:vertx-lang-kotlin-coroutines:$vertxKotlinCoroutinesVersion"
-
+        vertxKotlinCore = "io.vertx:vertx-lang-kotlin:$vertxVersion"
+        vertxKotlinCoroutines = "io.vertx:vertx-lang-kotlin-coroutines:$vertxVersion"
         vertxHazelcast = "io.vertx:vertx-hazelcast:$vertxHazelcastVersion"
-
-        /************************
-         * Tests
-         ***********************/
+        vertxJUnit5 = "io.vertx:vertx-junit5:$vertxVersion"
+        vertxUnit = "io.vertx:vertx-unit:$vertxVersion"
         junit = "junit:junit:4.12"
+        junit5api = "org.junit.jupiter:junit-jupiter-api:$junit5Version"
+        junit5params = "org.junit.jupiter:junit-jupiter-params:$junit5Version"
+        junit5engine = "org.junit.jupiter:junit-jupiter-engine:$junit5Version"
+        assertj = "org.assertj:assertj-core:$assertjVersion"
+        vertxCoreTests = "io.vertx:vertx-core:$vertxVersion:tests"
     }
 
     repositories {
@@ -47,8 +44,6 @@ apply plugin: 'idea'
 
 targetCompatibility = JavaVersion.VERSION_1_8
 sourceCompatibility = targetCompatibility
-
-
 
 group 'com.n0rtan'
 version '1.0'
@@ -72,21 +67,21 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile kotlinStdlib
     compile kotlinCoroutines
     compile vertxCore
     compile vertxKotlinCore
     compile vertxKotlinCoroutines
-    compile 'com.esotericsoftware:kryo:3.0.3'
+    compile kryo
     compile vertxHazelcast
 
-    testCompile 'io.vertx:vertx-core:3.5.4:tests'
-    testCompile 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testCompile 'org.junit.jupiter:junit-jupiter-params:5.3.1'
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-    testCompile 'org.assertj:assertj-core:3.11.1'
-    testCompile 'io.vertx:vertx-junit5:3.5.4'
-    testCompile 'io.vertx:vertx-unit:3.5.4'
+    testCompile vertxCoreTests
+    testCompile junit5api
+    testCompile junit5params
+    testCompile junit5engine
+    testCompile assertj
+    testCompile vertxJUnit5
+    testCompile vertxUnit
 
     testCompile junit
 }
