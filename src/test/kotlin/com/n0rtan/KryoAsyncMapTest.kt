@@ -73,8 +73,8 @@ class KryoAsyncMapTest {
         vertx.close { context.completeNow() }
     }
 
-    private suspend fun putObject(key: String, obj: TestObject): Void {
-        return awaitResult { map.put(key, obj, it) }
+    private suspend fun putObject(key: String, obj: TestObject) {
+        awaitResult<Void> { map.put(key, obj, it) }
     }
 
     private suspend fun getObject(key: String): TestObject {
