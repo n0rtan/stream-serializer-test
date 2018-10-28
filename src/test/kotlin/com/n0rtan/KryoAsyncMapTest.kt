@@ -39,6 +39,7 @@ class KryoAsyncMapTest {
             with(config.serializationConfig) {
                 GlobalSerializerConfig().let {
                     it.implementation = KryoGlobalSerializer()
+                    it.isOverrideJavaSerialization = true
                     globalSerializerConfig = it
                 }
             }

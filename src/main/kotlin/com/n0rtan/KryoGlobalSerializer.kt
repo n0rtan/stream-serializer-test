@@ -8,13 +8,13 @@ import com.hazelcast.nio.serialization.StreamSerializer
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
-import com.esotericsoftware.kryo.serializers.BeanSerializer
+import org.objenesis.strategy.StdInstantiatorStrategy
 
 class KryoGlobalSerializer : StreamSerializer<KryoObject> {
 
     private val mapper = ThreadLocal.withInitial {
         Kryo().let {
-            it.setDefaultSerializer(BeanSerializer::class.java)
+            it.instantiatorStrategy = StdInstantiatorStrategy()
             return@let it
         }
     }
@@ -40,7 +40,6 @@ class KryoGlobalSerializer : StreamSerializer<KryoObject> {
         Output(ByteArrayOutputStream()).use {
             mapper.get().writeClassAndObject(it, obj)
             out.writeByteArray(it.toBytes())
-            it.flush()
         }
     }
 
@@ -53,7 +52,6 @@ class KryoGlobalSerializer : StreamSerializer<KryoObject> {
      */
     override fun read(input: ObjectDataInput): KryoObject {
         Input(input.readByteArray()).use {
-            it.close()
             return mapper.get().readClassAndObject(it) as KryoObject
         }
     }
