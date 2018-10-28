@@ -28,11 +28,9 @@ class KryoAsyncMapTest {
 
     private lateinit var map: AsyncMap<String, TestObject>
 
-    private val vertxOptions: VertxOptions = VertxOptions()
+    private val vertxOptions = VertxOptions()
 
     private val testObjectInstance = TestObject("1", 2)
-
-    private val testObjectSerialized = "TestObject(prop1=1, prop2=2)"
 
     init {
         Config().let { config ->
@@ -61,9 +59,9 @@ class KryoAsyncMapTest {
     @DisplayName("\uD83D\uDE80 Test putting data object to async map")
     fun testPutGetObject(context: VertxTestContext) {
         runBlocking {
-            putObject("o", testObjectInstance)
+            putObject("obj", testObjectInstance)
             delay(10)
-            assertThat( getObject("o").toString() ).isEqualTo(testObjectSerialized)
+            assertThat( getObject("obj") ).isEqualTo(testObjectInstance)
         }
         context.completeNow()
     }
