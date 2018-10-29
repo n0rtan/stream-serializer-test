@@ -1,7 +1,6 @@
 package com.n0rtan
 
 import java.io.Serializable
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.*

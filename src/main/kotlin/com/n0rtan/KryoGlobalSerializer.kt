@@ -8,7 +8,7 @@ import com.hazelcast.nio.serialization.StreamSerializer
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 
-class KryoGlobalSerializer : StreamSerializer<KryoObject> {
+class KryoGlobalSerializer : StreamSerializer<Any> {
 
     private val mapper = ThreadLocal.withInitial { Kryo() }
 
@@ -29,7 +29,7 @@ class KryoGlobalSerializer : StreamSerializer<KryoObject> {
      * @param obj that will be written to out
      * @throws IOException in case of failure to write
      */
-    override fun write(out: ObjectDataOutput, obj: KryoObject) {
+    override fun write(out: ObjectDataOutput, obj: Any) {
         Output(ByteArrayOutputStream()).use {
             mapper.get().writeClassAndObject(it, obj)
             out.writeByteArray(it.toBytes())
@@ -43,9 +43,9 @@ class KryoGlobalSerializer : StreamSerializer<KryoObject> {
      * @return read object
      * @throws IOException in case of failure to read
      */
-    override fun read(input: ObjectDataInput): KryoObject {
+    override fun read(input: ObjectDataInput): Any {
         Input(input.readByteArray()).use {
-            return mapper.get().readClassAndObject(it) as KryoObject
+            return mapper.get().readClassAndObject(it)
         }
     }
 }
