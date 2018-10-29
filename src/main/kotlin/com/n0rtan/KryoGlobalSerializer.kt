@@ -5,19 +5,12 @@ import java.io.IOException
 import com.hazelcast.nio.ObjectDataInput
 import com.hazelcast.nio.ObjectDataOutput
 import com.hazelcast.nio.serialization.StreamSerializer
-import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
-import org.objenesis.strategy.StdInstantiatorStrategy
 
 class KryoGlobalSerializer : StreamSerializer<KryoObject> {
 
-    private val mapper = ThreadLocal.withInitial {
-        Kryo().let {
-            it.instantiatorStrategy = StdInstantiatorStrategy()
-            return@let it
-        }
-    }
+    private val mapper = ThreadLocal.withInitial { Kryo() }
 
     /**
      * @return typeId of serializer
