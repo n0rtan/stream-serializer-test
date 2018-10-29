@@ -18,7 +18,7 @@ import io.vertx.core.shareddata.Shareable
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager
 
 @ExtendWith(VertxExtension::class)
-class KryoAsyncMapTest {
+class KryoGlobalSerializerTest {
 
     companion object {
         private const val MAP_KEY = "__map"
@@ -56,7 +56,7 @@ class KryoAsyncMapTest {
     }
 
     @Test
-    @DisplayName("\uD83D\uDE80 Test putting data object to async map")
+    @DisplayName("\uD83D\uDE80 Test putting and getting data object to and from distributed map")
     fun testPutGetObject(context: VertxTestContext) {
         runBlocking {
             putObject("obj", testObjectInstance)
