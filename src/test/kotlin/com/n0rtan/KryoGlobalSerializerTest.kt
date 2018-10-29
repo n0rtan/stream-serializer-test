@@ -60,7 +60,6 @@ class KryoGlobalSerializerTest {
     fun testPutGetObject(context: VertxTestContext) {
         runBlocking {
             putObject("obj", testObjectInstance)
-            delay(10)
             assertThat( getObject("obj") ).isEqualTo(testObjectInstance)
         }
         context.completeNow()
